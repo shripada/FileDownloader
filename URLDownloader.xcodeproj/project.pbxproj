@@ -13,6 +13,8 @@
 		8289EDD61B747B0500CA1BD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8289EDD51B747B0500CA1BD3 /* Images.xcassets */; };
 		8289EDD91B747B0500CA1BD3 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8289EDD71B747B0500CA1BD3 /* LaunchScreen.xib */; };
 		8289EDE51B747B0500CA1BD3 /* URLDownloaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8289EDE41B747B0500CA1BD3 /* URLDownloaderTests.swift */; };
+		8289EDEF1B747B4E00CA1BD3 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8289EDEE1B747B4E00CA1BD3 /* DownloadManager.swift */; };
+		8289EDF11B74BDC600CA1BD3 /* FileDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8289EDF01B74BDC600CA1BD3 /* FileDownload.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		8289EDDE1B747B0500CA1BD3 /* URLDownloaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = URLDownloaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8289EDE31B747B0500CA1BD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8289EDE41B747B0500CA1BD3 /* URLDownloaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLDownloaderTests.swift; sourceTree = "<group>"; };
+		8289EDEE1B747B4E00CA1BD3 /* DownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+		8289EDF01B74BDC600CA1BD3 /* FileDownload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDownload.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,8 @@
 				8289EDD51B747B0500CA1BD3 /* Images.xcassets */,
 				8289EDD71B747B0500CA1BD3 /* LaunchScreen.xib */,
 				8289EDCC1B747B0500CA1BD3 /* Supporting Files */,
+				8289EDEE1B747B4E00CA1BD3 /* DownloadManager.swift */,
+				8289EDF01B74BDC600CA1BD3 /* FileDownload.swift */,
 			);
 			path = URLDownloader;
 			sourceTree = "<group>";
@@ -213,6 +219,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8289EDD11B747B0500CA1BD3 /* ViewController.swift in Sources */,
+				8289EDF11B74BDC600CA1BD3 /* FileDownload.swift in Sources */,
+				8289EDEF1B747B4E00CA1BD3 /* DownloadManager.swift in Sources */,
 				8289EDCF1B747B0500CA1BD3 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
