@@ -72,7 +72,6 @@ public class FileDownload
                 //Delete the file at this location if exists.
                 NSFileManager.defaultManager().removeItemAtPath(filePath, error: nil)
                 NSFileManager.defaultManager().moveItemAtURL(loc, toURL:NSURL(fileURLWithPath: filePath)!, error: nil)
-
                 //Update this entry in the cache
                 DownloadManager.sharedInstance.cache.setObject(["lastModified": lastModifiedDate!, "cachedFilePath":filePath], forKey: url)
 
