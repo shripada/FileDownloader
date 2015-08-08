@@ -20,11 +20,6 @@ import Foundation
 
    static let sharedInstance : DownloadManager = {
     var sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
-    //Set up a cache of 4M in memory and 60 MB disk
-    let URLCache = NSURLCache(memoryCapacity: 4 * 1024 * 1024, diskCapacity: 60 * 1024 * 1024, diskPath:nil)
-    sessionConfig.URLCache = URLCache
-
-
     return DownloadManager(configuration: sessionConfig)
   }()
 
@@ -43,7 +38,9 @@ import Foundation
     return dir
   }()
 
-
+  //We want to store the last-modified date of a request, and also, the cache file path, where the pdf file is stored.
+  public let cache = Cache<NSDictionary>(name: "DownloaderCache")
+  
   /// The underlying session.
   let session: NSURLSession
 
