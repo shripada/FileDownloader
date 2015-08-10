@@ -1,5 +1,5 @@
 //
-//  DownloadManager.swift
+//  FileDownloadManager.swift
 //  URLDownloader
 //
 //  Created by Shripada Hebbar on 07/08/15.
@@ -14,13 +14,13 @@ import Foundation
   a canceled or failed download.
 */
 
- public class DownloadManager {
+ public class FileDownloadManager {
 
   public typealias DownLoadCompletionHandler = (filePath: String?, success: Bool, error: NSError?)-> Void
 
-   static let sharedInstance : DownloadManager = {
+   static let sharedInstance : FileDownloadManager = {
     var sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
-    return DownloadManager(configuration: sessionConfig)
+    return FileDownloadManager(configuration: sessionConfig)
   }()
 
   //Directory where cached files are written.

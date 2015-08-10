@@ -29,7 +29,7 @@ class ViewController: UIViewController {
 
      sender.titleLabel?.enabled = false
 
-      download = DownloadManager.sharedInstance.download(url){ (filePath, success, error) -> Void in
+      download = FileDownloadManager.sharedInstance.download(url){ (filePath, success, error) -> Void in
         if(success)
         {
             print("File downloaded at: \(filePath)")
