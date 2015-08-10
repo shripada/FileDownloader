@@ -61,6 +61,9 @@ public class FileDownload
       let  status = (response  as! NSHTTPURLResponse).statusCode
       if(status == 304){ //Has not changed at server
         shouldFetchFromServer = false
+      }else if(status == 200) //Changed at server
+      {
+        shouldFetchFromServer = true
       }
 
       if(shouldFetchFromServer){ //Probably the resource at server has changed.
@@ -68,9 +71,6 @@ public class FileDownload
       }
       }.resume()
   }
-
-
-
 
 
   //Cancel the download
@@ -85,14 +85,13 @@ public class FileDownload
       if(error == nil ){
         let httpResponse = response  as! NSHTTPURLResponse
         let  status = httpResponse.statusCode
+
         if(status == 200){
           //Successfully downloaded the file, let us move it to a safe place in caches folder.
-          //TODO: We need to parameterise this as to where the file needs to be really
-          //written
           let lastModifiedDate: String? = httpResponse.allHeaderFields["Last-Modified"] as? String
           var filePath = FileDownloadManager.sharedInstance.cacheDirectory;
           filePath = filePath.stringByAppendingPathComponent(url.lastPathComponent);
-          //Delete the file at this location if exists.
+          //Delete the file at this location if exists before trying to move the downloaded content there.
           NSFileManager.defaultManager().removeItemAtPath(filePath, error: nil)
           NSFileManager.defaultManager().moveItemAtURL(loc, toURL:NSURL(fileURLWithPath: filePath)!, error: nil)
           //Update this entry in the cache
@@ -126,6 +125,8 @@ public class FileDownload
       }
       
      }
-    self.task!.resume()
+
+    self.task?.resume()
+    
 }
 }
