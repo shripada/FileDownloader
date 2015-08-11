@@ -20,6 +20,8 @@ public class FileDownloadManager {
 
   static let sharedInstance : FileDownloadManager = {
     var sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
+    //We will manage caching ourselves, dont want session to cache.
+    sessionConfig.requestCachePolicy = .ReloadIgnoringLocalCacheData
     return FileDownloadManager(configuration: sessionConfig)
     }()
 
@@ -33,7 +35,13 @@ public class FileDownloadManager {
     }
 
     let cacheDirectory = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as! String
-    let dir = cacheDirectory.stringByAppendingFormat("%@", bundle)
+
+    //Create a caches folder for the app if does not exist in caches directory.
+    let dir = cacheDirectory.stringByAppendingPathComponent(bundle)
+
+    if(!NSFileManager.defaultManager().fileExistsAtPath(dir)){
+      NSFileManager.defaultManager() .createDirectoryAtPath(dir, withIntermediateDirectories: true, attributes: nil, error: nil)
+    }
 
     return dir
     }()

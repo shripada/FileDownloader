@@ -21,41 +21,84 @@ public class FileDownload
 
   var task: NSURLSessionDownloadTask? = nil
 
+  var url : String
+
+  //MARK: 
+
   /**
   Designated Initializer
+  Intiates a task to figure out if the file has changed at server, and if so, sets up a download task
+  to fetch the file afresh. On the other hand, if the file is in cache, and not changed in server, just returns that.
+
   */
   required public init(session: NSURLSession, url:String, _ completion: FileDownloadManager.DownLoadCompletionHandler )
   {
     self.session = session
+    self.url = url
 
     var shouldFetchFromServer = false
-
-    var lastModifiedDate: String? = nil
 
     var cachedFilePath : String? = nil
 
     //Check if there is a cached response for this request
     if let cachedEntry:NSDictionary = FileDownloadManager.sharedInstance.cache.objectForKey(url){
-      //Get the Last-Modified value
-      lastModifiedDate = cachedEntry["lastModified"] as? String
-      cachedFilePath = cachedEntry["cachedFilePath"] as? String
-
       //Check additionally that the file exists at the said path, iOS might have purged it in crunch
       //situations, if this file is missing, then we need to fetch the file from server.
-      if let cachedFilePath = cachedFilePath {
-        if(!NSFileManager.defaultManager().fileExistsAtPath(cachedFilePath)){
+      if let cachedFilePath = cachedEntry["filePath"] as? String {
+        if(!NSFileManager.defaultManager().fileExistsAtPath(cachedFilePath )){
           shouldFetchFromServer = true
         }
       }
     }
+    else{
+      shouldFetchFromServer = true
+    }
+
+    if shouldFetchFromServer{
+      download(completion)
+    }else{
+      downloadFromServerIfModified(completion)
+    }
+
+  }
+
+
+  //Cancel the download
+  func cancel(){
+    self.task?.cancel()
+  }
+
+  //MARK: Internal funtions
+
+  func downloadFromServerIfModified(completion: FileDownloadManager.DownLoadCompletionHandler)
+  {
+
+    var lastModifiedDate: String?
+    var eTag: String?
+    var filePath: String?
+
+    //Check if there is a cached response for this request
+    if let cachedEntry:NSDictionary = FileDownloadManager.sharedInstance.cache.objectForKey(url){
+      //Get the Last-Modified value
+      lastModifiedDate = cachedEntry["lastModified"] as? String
+      eTag = cachedEntry["ETag"] as? String
+      filePath = cachedEntry["filePath"] as? String
+    }
+
 
     //We shall now make a head call to server, to check if the file is modified there.
-    let request = NSMutableURLRequest(URL: NSURL(string:url)!)
+    let request = NSMutableURLRequest(URL: NSURL(string:self.url)!)
     request.HTTPMethod = "HEAD"
 
     if let lastModifiedDate = lastModifiedDate{
       request.setValue(lastModifiedDate, forHTTPHeaderField: "If-Modified-Since");
     }
+
+    if let eTag = eTag{
+      request.setValue(eTag, forHTTPHeaderField: "If-None-Match");
+    }
+
+    var shouldFetchFromServer = true
 
     session.dataTaskWithRequest(request){ [unowned self](data: NSData?, response:NSURLResponse!, error:NSError?) -> Void in
       let  status = (response  as! NSHTTPURLResponse).statusCode
@@ -66,20 +109,21 @@ public class FileDownload
         shouldFetchFromServer = true
       }
 
-      if(shouldFetchFromServer){ //Probably the resource at server has changed.
-        self.downloadFromServer(url, completion)
+      if(shouldFetchFromServer){ //The resource at server has changed, fetch the latest
+        self.download(completion)
+      }
+      else{ //Return the cached response
+        if let filePath = filePath {
+          dispatch_sync(dispatch_get_main_queue())
+            {
+              completion(filePath:filePath, success: true, error: nil)
+          }
+        }
       }
       }.resume()
   }
 
-
-  //Cancel the download
-  func cancel(){
-    self.task!.cancel()
-  }
-
-  //MARK: Internal funtions
-  func downloadFromServer(url:String, _ completion:FileDownloadManager.DownLoadCompletionHandler)->Void {
+  func download(completion:FileDownloadManager.DownLoadCompletionHandler)->Void {
     self.task = session.downloadTaskWithURL(NSURL(string:url)!){ (loc :NSURL!, response:NSURLResponse!, error:NSError!) -> Void in
 
       if(error == nil ){
@@ -89,17 +133,35 @@ public class FileDownload
         if(status == 200){
           //Successfully downloaded the file, let us move it to a safe place in caches folder.
           let lastModifiedDate: String? = httpResponse.allHeaderFields["Last-Modified"] as? String
+          let eTag : String? = httpResponse.allHeaderFields["ETag"] as? String
           var filePath = FileDownloadManager.sharedInstance.cacheDirectory;
-          filePath = filePath.stringByAppendingPathComponent(url.lastPathComponent);
+          filePath = filePath.stringByAppendingPathComponent(self.url.lastPathComponent);
           //Delete the file at this location if exists before trying to move the downloaded content there.
-          NSFileManager.defaultManager().removeItemAtPath(filePath, error: nil)
-          NSFileManager.defaultManager().moveItemAtURL(loc, toURL:NSURL(fileURLWithPath: filePath)!, error: nil)
-          //Update this entry in the cache
-          FileDownloadManager.sharedInstance.cache.setObject(["lastModified": lastModifiedDate!, "cachedFilePath":filePath], forKey: url)
+          var error : NSError?
+
+          if(NSFileManager.defaultManager().fileExistsAtPath(filePath)){
+            NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
+          }
+          let success  = NSFileManager.defaultManager().moveItemAtURL(loc, toURL:NSURL(fileURLWithPath: filePath)!, error: &error)
+
+          //Update this entry in the cache only if there is no error.
+          if(error == nil){
+            var cachedDict : [String:String] = ["filePath":filePath]
+
+            if let lastModifiedDate = lastModifiedDate{
+              cachedDict["lastModified"] = lastModifiedDate
+            }
+            if let eTag = eTag{
+              cachedDict["ETag"] = eTag
+            }
+
+            FileDownloadManager.sharedInstance.cache.setObject(cachedDict, forKey: self.url)
+
+          }
 
           dispatch_sync(dispatch_get_main_queue())
             {
-              completion(filePath:filePath, success: true, error: error)
+              completion(filePath:filePath, success: success, error: error)
           }
         }
       }else{
@@ -110,23 +172,23 @@ public class FileDownload
         dispatch_sync(dispatch_get_main_queue())
           {
             //Return cached file path itself, in case of failure.
-            if let cachedEntry:NSDictionary = FileDownloadManager.sharedInstance.cache.objectForKey(url){
-              if let cachedFilePath = cachedEntry["cachedFilePath"] as? String{
-                completion(filePath: cachedFilePath, success: true, error: error)
+            if let cachedEntry:NSDictionary = FileDownloadManager.sharedInstance.cache.objectForKey(self.url){
+              if let cachedFilePath = cachedEntry["filePath"] as? String{
+                completion(filePath: cachedFilePath, success: false, error: error)
               }else{
                 completion(filePath: nil, success: false, error: error)
-
+                
               }
-
+              
             }
             
         }
         
       }
       
-     }
-
+    }
+    
     self.task?.resume()
     
-}
+  }
 }
