@@ -44,8 +44,9 @@ public class FileDownload
     if let cachedEntry:NSDictionary = FileDownloadManager.sharedInstance.cache.objectForKey(url){
       //Check additionally that the file exists at the said path, iOS might have purged it in crunch
       //situations, if this file is missing, then we need to fetch the file from server.
-      if let cachedFilePath = cachedEntry["filePath"] as? String {
-        if(!NSFileManager.defaultManager().fileExistsAtPath(cachedFilePath )){
+      if let cachedFileName = cachedEntry["fileName"] as? String {
+        cachedFilePath = FileDownloadManager.sharedInstance.cacheDirectory.stringByAppendingPathComponent(cachedFileName);
+        if(!NSFileManager.defaultManager().fileExistsAtPath(cachedFilePath! )){
           shouldFetchFromServer = true
         }
       }
@@ -82,7 +83,11 @@ public class FileDownload
       //Get the Last-Modified value
       lastModifiedDate = cachedEntry["lastModified"] as? String
       eTag = cachedEntry["ETag"] as? String
-      filePath = cachedEntry["filePath"] as? String
+      var fileName = cachedEntry["fileName"] as? String
+      if let fileName = fileName {
+        filePath = FileDownloadManager.sharedInstance.cacheDirectory.stringByAppendingPathComponent(fileName);
+      }
+
     }
 
 
@@ -146,7 +151,7 @@ public class FileDownload
 
           //Update this entry in the cache only if we were able to move the file successfully.
           if(error == nil){
-            var cachedDict : [String:String] = ["filePath":filePath]
+            var cachedDict : [String:String] = ["fileName":filePath.lastPathComponent]
 
             if let lastModifiedDate = lastModifiedDate{
               cachedDict["lastModified"] = lastModifiedDate
@@ -173,8 +178,10 @@ public class FileDownload
           {
             //Return cached file path itself, in case of failure.
             if let cachedEntry:NSDictionary = FileDownloadManager.sharedInstance.cache.objectForKey(self.url){
-              if let cachedFilePath = cachedEntry["filePath"] as? String{
-                completion(filePath: cachedFilePath, success: false, error: error)
+              if let fileName = cachedEntry["fileName"] as? String{
+                var filePath = FileDownloadManager.sharedInstance.cacheDirectory;
+                filePath = filePath.stringByAppendingPathComponent(fileName)
+                completion(filePath: filePath, success: false, error: error)
               }
             }else{
               completion(filePath: nil, success: false, error: error)

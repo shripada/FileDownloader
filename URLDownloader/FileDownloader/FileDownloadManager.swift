@@ -34,7 +34,7 @@ public class FileDownloadManager {
       bundle = info[kCFBundleIdentifierKey] as! String
     }
 
-    let cacheDirectory = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as! String
+    let cacheDirectory = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true).first as! String
 
     //Create a caches folder for the app if does not exist in caches directory.
     let dir = cacheDirectory.stringByAppendingPathComponent(bundle)
