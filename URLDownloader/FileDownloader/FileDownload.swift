@@ -144,7 +144,7 @@ public class FileDownload
           }
           let success  = NSFileManager.defaultManager().moveItemAtURL(loc, toURL:NSURL(fileURLWithPath: filePath)!, error: &error)
 
-          //Update this entry in the cache only if there is no error.
+          //Update this entry in the cache only if we were able to move the file successfully.
           if(error == nil){
             var cachedDict : [String:String] = ["filePath":filePath]
 
@@ -175,20 +175,17 @@ public class FileDownload
             if let cachedEntry:NSDictionary = FileDownloadManager.sharedInstance.cache.objectForKey(self.url){
               if let cachedFilePath = cachedEntry["filePath"] as? String{
                 completion(filePath: cachedFilePath, success: false, error: error)
-              }else{
-                completion(filePath: nil, success: false, error: error)
-                
               }
-              
+            }else{
+              completion(filePath: nil, success: false, error: error)
             }
+
             
         }
         
       }
       
     }
-    
     self.task?.resume()
-    
   }
 }
