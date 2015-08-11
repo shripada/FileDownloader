@@ -26,7 +26,7 @@ public class FileDownloadManager {
     }()
 
   //Directory where cached files are written.
-  let cacheDirectory : String = {
+   static var cacheDirectory : String = {
 
     var bundle: String = "Unknown"
 
@@ -48,7 +48,8 @@ public class FileDownloadManager {
 
   //We want to store the last-modified date of a request, and also, the cache file path, where the pdf file is stored. The cache gets created within the default caches folder, so we dont need to really worry
   //about explicitely removing expired objects, or set expiry for cached objects. iOS will purge cache if need arises.
-  public let cache = Cache<NSDictionary>(name: "DownloaderCache")
+  public let cache = Cache<NSDictionary>(name: "DownloaderCache", directory: cacheDirectory)
+  
 
   /// The underlying session.
   let session: NSURLSession

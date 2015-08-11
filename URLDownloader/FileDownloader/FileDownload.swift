@@ -45,7 +45,7 @@ public class FileDownload
       //Check additionally that the file exists at the said path, iOS might have purged it in crunch
       //situations, if this file is missing, then we need to fetch the file from server.
       if let cachedFileName = cachedEntry["fileName"] as? String {
-        cachedFilePath = FileDownloadManager.sharedInstance.cacheDirectory.stringByAppendingPathComponent(cachedFileName);
+        cachedFilePath = FileDownloadManager.cacheDirectory.stringByAppendingPathComponent(cachedFileName);
         if(!NSFileManager.defaultManager().fileExistsAtPath(cachedFilePath! )){
           shouldFetchFromServer = true
         }
@@ -85,7 +85,7 @@ public class FileDownload
       eTag = cachedEntry["ETag"] as? String
       var fileName = cachedEntry["fileName"] as? String
       if let fileName = fileName {
-        filePath = FileDownloadManager.sharedInstance.cacheDirectory.stringByAppendingPathComponent(fileName);
+        filePath = FileDownloadManager.cacheDirectory.stringByAppendingPathComponent(fileName);
       }
 
     }
@@ -139,7 +139,7 @@ public class FileDownload
           //Successfully downloaded the file, let us move it to a safe place in caches folder.
           let lastModifiedDate: String? = httpResponse.allHeaderFields["Last-Modified"] as? String
           let eTag : String? = httpResponse.allHeaderFields["ETag"] as? String
-          var filePath = FileDownloadManager.sharedInstance.cacheDirectory;
+          var filePath = FileDownloadManager.cacheDirectory;
           filePath = filePath.stringByAppendingPathComponent(self.url.lastPathComponent);
           //Delete the file at this location if exists before trying to move the downloaded content there.
           var error : NSError?
@@ -179,7 +179,7 @@ public class FileDownload
             //Return cached file path itself, in case of failure.
             if let cachedEntry:NSDictionary = FileDownloadManager.sharedInstance.cache.objectForKey(self.url){
               if let fileName = cachedEntry["fileName"] as? String{
-                var filePath = FileDownloadManager.sharedInstance.cacheDirectory;
+                var filePath = FileDownloadManager.cacheDirectory;
                 filePath = filePath.stringByAppendingPathComponent(fileName)
                 completion(filePath: filePath, success: false, error: error)
               }
