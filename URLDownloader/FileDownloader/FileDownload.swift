@@ -90,7 +90,6 @@ public class FileDownload
 
     }
 
-
     //We shall now make a head call to server, to check if the file is modified there.
     let request = NSMutableURLRequest(URL: NSURL(string:self.url)!)
     request.HTTPMethod = "HEAD"
@@ -121,7 +120,7 @@ public class FileDownload
         if let filePath = filePath {
           dispatch_sync(dispatch_get_main_queue())
             {
-              completion(filePath:filePath, success: true, error: nil)
+              completion(url: self.url, filePath:filePath, success: true, error: nil)
           }
         }
       }
@@ -166,7 +165,7 @@ public class FileDownload
 
           dispatch_sync(dispatch_get_main_queue())
             {
-              completion(filePath:filePath, success: success, error: error)
+              completion(url: self.url, filePath:filePath, success: success, error: error)
           }
         }
       }else{
@@ -181,13 +180,11 @@ public class FileDownload
               if let fileName = cachedEntry["fileName"] as? String{
                 var filePath = FileDownloadManager.cacheDirectory;
                 filePath = filePath.stringByAppendingPathComponent(fileName)
-                completion(filePath: filePath, success: false, error: error)
+                completion(url:self.url, filePath: filePath, success: false, error: error)
               }
             }else{
-              completion(filePath: nil, success: false, error: error)
+              completion(url:self.url, filePath: nil, success: false, error: error)
             }
-
-            
         }
         
       }

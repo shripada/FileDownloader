@@ -29,13 +29,15 @@ class ViewController: UIViewController {
 
      sender.titleLabel?.enabled = false
 
-      download = FileDownloadManager.sharedInstance.download(url){ (filePath, success, error) -> Void in
+      download = FileDownloadManager.sharedInstance.download(url){ (url,filePath, success, error) -> Void in
         if(success)
         {
-            print("File downloaded at: \(filePath)")
+            print("File from \(url) \n downloaded at: \(filePath)")
         }
        sender.titleLabel?.enabled = true
     }
+
+  
 
     //You can cancel the download if you want-
     //download.cancel()

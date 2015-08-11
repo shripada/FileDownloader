@@ -16,7 +16,7 @@ a canceled or failed download.
 
 public class FileDownloadManager {
 
-  public typealias DownLoadCompletionHandler = (filePath: String?, success: Bool, error: NSError?)-> Void
+  public typealias DownLoadCompletionHandler = (url:String, filePath: String?, success: Bool, error: NSError?)-> Void
 
   static let sharedInstance : FileDownloadManager = {
     var sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
@@ -77,7 +77,7 @@ public class FileDownloadManager {
 
   :param: url  The url as a String
   :param:  completion  Closure that will be called for download associated when the request is completed.
-  :result: Returns the FileDownload object that encapsulates the task underneath.
+  :result: Returns the FileDownload object that encapsulates the task underneath.  
   */
 
   func download( url :String, _ completion:DownLoadCompletionHandler )-> FileDownload{

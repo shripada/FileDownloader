@@ -10,7 +10,13 @@ import UIKit
 import XCTest
 
 class URLDownloaderTests: XCTestCase {
-    
+
+    //files to be downloaded
+  let filesTobeDownloaded = [
+    "http://kmmc.in/wp-content/uploads/2014/01/lesson2.pdf",
+    "http://fzs.sve-mo.ba/sites/default/files/dokumenti-vijesti/sample.pdf"
+]
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
