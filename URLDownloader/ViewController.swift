@@ -10,7 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
-  var download: FileDownload?
+  var downloadImmediately: FileDownload?
+  var downloadLater: FileDownload?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -29,18 +30,29 @@ class ViewController: UIViewController {
 
      sender.titleLabel?.enabled = false
 
-      download = FileDownloadManager.sharedInstance.download(url){ (url,filePath, success, error) -> Void in
+      downloadImmediately = FileDownloadManager.sharedInstance.download(url){ [unowned self](url,filePath, success, error) -> Void in
         if(success)
         {
             print("File from \(url) \n downloaded at: \(filePath)")
         }
        sender.titleLabel?.enabled = true
+        self.downloadImmediately = nil
     }
 
-  
 
-    //You can cancel the download if you want-
-    //download.cancel()
+    let anotherURL = "http://fzs.sve-mo.ba/sites/default/files/dokumenti-vijesti/sample.pdf"
+
+    downloadLater = FileDownloadManager.sharedInstance.download(anotherURL, resumeImmediately:false){ [unowned self](url,filePath, success, error) -> Void in
+      if(success)
+      {
+        print("File from \(url) \n downloaded at: \(filePath)")
+      }
+      sender.titleLabel?.enabled = true
+      self.downloadLater = nil
+    }
+
+    //You need to explictely initiate download when you want
+    self.downloadLater?.resume()
   }
 
 }

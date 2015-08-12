@@ -23,7 +23,9 @@ public class FileDownload
 
   var url : String
 
-  //MARK: 
+  var resumesImmediately:Bool = true
+
+  //MARK:
 
   /**
   Designated Initializer
@@ -31,10 +33,11 @@ public class FileDownload
   to fetch the file afresh. On the other hand, if the file is in cache, and not changed in server, just returns that.
 
   */
-  required public init(session: NSURLSession, url:String, _ completion: FileDownloadManager.DownLoadCompletionHandler )
+  required public init(session: NSURLSession, url:String, resumesImmediately:Bool, _ completion: FileDownloadManager.DownLoadCompletionHandler )
   {
     self.session = session
     self.url = url
+    self.resumesImmediately = resumesImmediately
 
     var shouldFetchFromServer = false
 
@@ -63,10 +66,25 @@ public class FileDownload
 
   }
 
+  convenience public init(session: NSURLSession, url:String, _ completion: FileDownloadManager.DownLoadCompletionHandler )
+  {
+    self.init(session:session, url:url, resumesImmediately:true, completion)
+  }
+
 
   //Cancel the download
   func cancel(){
     self.task?.cancel()
+  }
+
+  //Resume the download
+  func resume(){
+    self.task?.resume()
+  }
+
+  //Suspend the download
+  func suspend(){
+    self.task?.suspend()
   }
 
   //MARK: Internal funtions
@@ -190,6 +208,8 @@ public class FileDownload
       }
       
     }
-    self.task?.resume()
+    if(resumesImmediately){
+      self.resume()
+    }
   }
 }

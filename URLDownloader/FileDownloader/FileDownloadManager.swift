@@ -73,7 +73,7 @@ public class FileDownloadManager {
 
   /**
   Initiates an asynchronous download for each of the url mentioned, with a completion handler, that
-  gets called for each of the successful download.
+  gets called for each of the successful download. Download will start immediately.
 
   :param: url  The url as a String
   :param:  completion  Closure that will be called for download associated when the request is completed.
@@ -84,5 +84,21 @@ public class FileDownloadManager {
 
     //This internally creates the download task needed.
     return FileDownload(session: session, url: url, completion)
+  }
+
+  /**
+  Initiates an asynchronous download for each of the url mentioned, with a completion handler, that
+  gets called for each of the successful download. Additionally allows if the donwload should begin immediately or not.
+
+  :param: url  The url as a String
+  :param: resumesImmediately  Set true, if the download should begin immediately, fasle otherwise.
+  :param:  completion  Closure that will be called for download associated when the request is completed.
+  :result: Returns the FileDownload object that encapsulates the task underneath.
+  */
+
+  func download( url :String, resumeImmediately:Bool, _ completion:DownLoadCompletionHandler )-> FileDownload{
+
+    //This internally creates the download task needed.
+    return FileDownload(session: session, url: url, resumesImmediately:resumeImmediately, completion)
   }
 }
