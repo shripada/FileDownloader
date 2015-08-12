@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		826AA3ED1B7B48BB00CACFAC /* FileDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8289EDFA1B76630C00CA1BD3 /* FileDownloadManager.swift */; };
+		826AA3EE1B7B48C000CACFAC /* FileDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8289EDFB1B76630C00CA1BD3 /* FileDownload.swift */; };
+		826AA3EF1B7B48C400CACFAC /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8289EDFD1B76630C00CA1BD3 /* Cache.swift */; };
+		826AA3F01B7B48C800CACFAC /* CacheObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8289EDFE1B76630C00CA1BD3 /* CacheObject.swift */; };
 		8289EDCF1B747B0500CA1BD3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8289EDCE1B747B0500CA1BD3 /* AppDelegate.swift */; };
 		8289EDD11B747B0500CA1BD3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8289EDD01B747B0500CA1BD3 /* ViewController.swift */; };
 		8289EDD41B747B0500CA1BD3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8289EDD21B747B0500CA1BD3 /* Main.storyboard */; };
@@ -248,6 +252,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				826AA3F01B7B48C800CACFAC /* CacheObject.swift in Sources */,
+				826AA3EF1B7B48C400CACFAC /* Cache.swift in Sources */,
+				826AA3EE1B7B48C000CACFAC /* FileDownload.swift in Sources */,
+				826AA3ED1B7B48BB00CACFAC /* FileDownloadManager.swift in Sources */,
 				8289EDE51B747B0500CA1BD3 /* URLDownloaderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
