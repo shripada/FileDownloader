@@ -19,3 +19,38 @@ Server will send a status 200 (OK) indicating, there is an updated content, and 
 
 
 The FileDownloadManager class is a singleton and it allows you to initite a download and handle caching automatically for you.
+
+## FileDownloadManager Usage
+
+• Download immediately-
+```
+  let url = "http://kmmc.in/wp-content/uploads/2014/01/lesson2.pdf"
+
+     sender.titleLabel?.enabled = false
+
+     var downloadImmediately:FileDownload = FileDownloadManager.sharedInstance.download(url){ [unowned self](url,filePath, success, error) -> Void in
+        if(success)
+        {
+            print("File from \(url) \n downloaded at: \(filePath)")
+        }
+
+    }
+```
+• Download later:
+```
+    let anotherURL = "http://fzs.sve-mo.ba/sites/default/files/dokumenti-vijesti/sample.pdf"
+
+    var downloadLater:FileDownload  = FileDownloadManager.sharedInstance.download(anotherURL, resumeImmediately:false){ [unowned self](url,filePath, success, error) -> Void in
+      if(success)
+      {
+        print("File from \(url) \n downloaded at: \(filePath)")
+      }
+    }
+
+    //You need to explictely initiate download when you want
+    self.downloadLater?.resume()
+   ``` 
+
+## Important notes
+You should never hardcode or cache the file path returned by the callback, as the file downloader caches files in default cache folder and absolute references to this folder should never be stored.  Every time you want the file, it is advised to fetch the path via FileDownloadManager:download  only. 
+
