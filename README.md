@@ -48,3 +48,6 @@ The FileDownloadManager class is a singleton and it allows you to initite a down
 ## Important notes
 You should never hardcode or cache the file path returned by the callback, as the file downloader caches files in default cache folder and absolute references to this folder should never be stored.  Every time you want the file, it is advised to fetch the path via FileDownloadManager:download  only. 
 
+## Credits
+I use [AwesomeCache](https://github.com/aschuch/AwesomeCache) to cache header fields on disk.
+
