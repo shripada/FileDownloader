@@ -25,10 +25,7 @@ The FileDownloadManager class is a singleton and it allows you to initite a down
 • Download immediately-
 ```
   let url = "http://kmmc.in/wp-content/uploads/2014/01/lesson2.pdf"
-
-     sender.titleLabel?.enabled = false
-
-    let downloadImmediately = FileDownloadManager.sharedInstance.download(url){ [unowned self](url,filePath, success, error) -> Void in
+    FileDownloadManager.sharedInstance.download(url){(url,filePath, success, error) -> Void in
         if(success)
         {
             print("File from \(url) \n downloaded at: \(filePath)")
@@ -41,14 +38,12 @@ The FileDownloadManager class is a singleton and it allows you to initite a down
 • Download later:
 ```
     let anotherURL = "http://fzs.sve-mo.ba/sites/default/files/dokumenti-vijesti/sample.pdf"
-
      let downloadLater  = FileDownloadManager.sharedInstance.download(anotherURL, resumeImmediately:false){ [unowned self](url,filePath, success, error) -> Void in
       if(success)
       {
         print("File from \(url) \n downloaded at: \(filePath)")
       }
-      
-   
+    
     }
 
     //You need to explictely initiate download when you want
