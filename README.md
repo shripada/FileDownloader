@@ -48,7 +48,7 @@ The FileDownloadManager class is a singleton and it allows you to initite a down
     }
 
     //You need to explictely initiate download when you want
-    self.downloadLater?.resume()
+    downloadLater.resume()
    ``` 
 
 ## Important notes
