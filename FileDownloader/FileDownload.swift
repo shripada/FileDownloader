@@ -21,9 +21,12 @@ public class FileDownload
 
   var task: NSURLSessionDownloadTask? = nil
 
+  var headRequestTask: NSURLSessionDataTask? = nil
+
   var url : String
 
   var resumesImmediately:Bool = true
+
 
   //MARK:
 
@@ -122,7 +125,7 @@ public class FileDownload
 
     var shouldFetchFromServer = true
 
-    session.dataTaskWithRequest(request){ [unowned self](data: NSData?, response:NSURLResponse!, error:NSError?) -> Void in
+    headRequestTask  = session.dataTaskWithRequest(request){ [unowned self](data: NSData?, response:NSURLResponse!, error:NSError?) -> Void in
       let  status = (response  as! NSHTTPURLResponse).statusCode
       if(status == 304){ //Has not changed at server
         shouldFetchFromServer = false
@@ -142,7 +145,10 @@ public class FileDownload
           }
         }
       }
-      }.resume()
+      }
+
+    headRequestTask?.resume();
+    
   }
 
   func download(completion:FileDownloadManager.DownLoadCompletionHandler)->Void {

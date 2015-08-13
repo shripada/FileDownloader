@@ -25,8 +25,10 @@ public class FileDownloadManager {
     return FileDownloadManager(configuration: sessionConfig)
     }()
 
+  var activeDownloadsDict : [String:FileDownload] = [:]
+
   //Directory where cached files are written.
-   static var cacheDirectory : String = {
+  static var cacheDirectory : String = {
 
     var bundle: String = "Unknown"
 
@@ -49,7 +51,7 @@ public class FileDownloadManager {
   //We want to store the last-modified date of a request, and also, the cache file path, where the pdf file is stored. The cache gets created within the default caches folder, so we dont need to really worry
   //about explicitely removing expired objects, or set expiry for cached objects. iOS will purge cache if need arises.
   public let cache = Cache<NSDictionary>(name: "DownloaderCache", directory: cacheDirectory)
-  
+
 
   /// The underlying session.
   let session: NSURLSession
@@ -77,13 +79,13 @@ public class FileDownloadManager {
 
   :param: url  The url as a String
   :param:  completion  Closure that will be called for download associated when the request is completed.
-  :result: Returns the FileDownload object that encapsulates the task underneath.  
+  :result: Returns the FileDownload object that encapsulates the task underneath.
   */
 
   func download( url :String, _ completion:DownLoadCompletionHandler )-> FileDownload{
 
     //This internally creates the download task needed.
-    return FileDownload(session: session, url: url, completion)
+    return download(url, resumeImmediately:true, completion)
   }
 
   /**
@@ -99,6 +101,15 @@ public class FileDownloadManager {
   func download( url :String, resumeImmediately:Bool, _ completion:DownLoadCompletionHandler )-> FileDownload{
 
     //This internally creates the download task needed.
-    return FileDownload(session: session, url: url, resumesImmediately:resumeImmediately, completion)
+    let download : FileDownload =  FileDownload(session: session, url: url, resumesImmediately:resumeImmediately){
+      [unowned self](url, filePath, success, error) in
+      completion(url: url, filePath: filePath, success: success, error: error)
+      self.activeDownloadsDict.removeValueForKey(url)
+    }
+
+    activeDownloadsDict[url] = download
+    
+    return download
   }
+  
 }
