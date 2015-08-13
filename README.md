@@ -28,11 +28,13 @@ The FileDownloadManager class is a singleton and it allows you to initite a down
 
      sender.titleLabel?.enabled = false
 
-     var downloadImmediately:FileDownload = FileDownloadManager.sharedInstance.download(url){ [unowned self](url,filePath, success, error) -> Void in
+    downloadImmediately = FileDownloadManager.sharedInstance.download(url){ [unowned self](url,filePath, success, error) -> Void in
         if(success)
         {
             print("File from \(url) \n downloaded at: \(filePath)")
         }
+        
+        self.downloadImmediately = nil 
 
     }
 ```
@@ -40,15 +42,17 @@ The FileDownloadManager class is a singleton and it allows you to initite a down
 ```
     let anotherURL = "http://fzs.sve-mo.ba/sites/default/files/dokumenti-vijesti/sample.pdf"
 
-    var downloadLater:FileDownload  = FileDownloadManager.sharedInstance.download(anotherURL, resumeImmediately:false){ [unowned self](url,filePath, success, error) -> Void in
+     downloadLater  = FileDownloadManager.sharedInstance.download(anotherURL, resumeImmediately:false){ [unowned self](url,filePath, success, error) -> Void in
       if(success)
       {
         print("File from \(url) \n downloaded at: \(filePath)")
       }
+      
+      self.downloadLater = nil 
     }
 
     //You need to explictely initiate download when you want
-    downloadLater.resume()
+    self.downloadLater.resume()
    ``` 
 
 ## Important notes
