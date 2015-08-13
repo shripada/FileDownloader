@@ -18,7 +18,7 @@ Server will send a status 200 (OK) indicating, there is an updated content, and 
 
 
 
-The FileDownloadManager class is a singleton and it allows you to initite a download and handle caching automatically for you.
+The FileDownloadManager class is a singleton and it allows you to initite a download and handle caching automatically for you by using the ETag and Last-Modified fields for caching.
 
 ## FileDownloadManager Usage
 
