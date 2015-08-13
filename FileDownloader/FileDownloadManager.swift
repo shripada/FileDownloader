@@ -1,6 +1,6 @@
 //
 //  FileDownloadManager.swift
-//  URLDownloader
+//  Version 1.0.0
 //
 //  Created by Shripada Hebbar on 07/08/15.
 //  Copyright (c) 2015 Shripada Hebbar. All rights reserved.
