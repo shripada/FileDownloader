@@ -7,7 +7,7 @@ caching for this kind of files, and instead prefer the **ETag** and **Last-Modif
 A brief explanation of these response fields:
 
 
-* Last-Modified - The value of this header corresponds to the date and time when the requested resource was last changed. For example, if a client requests a timeline of recent photos, /photos/timeline, the Last-Modified value could be set to when the most recent photo was taken.
+* Last-Modified - The value of this header corresponds to the date and time when the requested resource was last changed. For example, if a client requests a pdf file, the server can send the 'Last-modifiled' field as the time when the pdf document was last edited.
 * Etag - An abbreviation for "entity tag", this is an identifier that represents the contents requested resource. In practice, an Etag header value could be something like the MD5 digest of the resource properties. This is particularly useful for dynamically generated resources that may not have an obvious Last-Modified value.
 
 Client can cache these values and before issueing actual GET request next time, it can send these two values as two special fields in the request header in a HEAD call. The fields are:
