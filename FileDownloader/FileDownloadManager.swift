@@ -103,10 +103,14 @@ public class FileDownloadManager {
     //This internally creates the download task needed.
     let download : FileDownload =  FileDownload(session: session, url: url, resumesImmediately:resumeImmediately){
       [unowned self](url, filePath, success, error) in
+
       completion(url: url, filePath: filePath, success: success, error: error)
+
+      //The download instance for this url should no longer be around, release it.
       self.activeDownloadsDict.removeValueForKey(url)
     }
 
+    //Keep the download object around, until the callback is called.
     activeDownloadsDict[url] = download
     
     return download
