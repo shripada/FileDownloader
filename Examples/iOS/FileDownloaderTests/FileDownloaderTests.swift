@@ -26,7 +26,14 @@ class URLDownloaderTests: XCTestCase {
   }
 
   override func tearDown() {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    //Remove cache.
+    var semaphore = dispatch_semaphore_create(0)
+    FileDownloadManager.sharedInstance.cache.removeAllObjects { () -> Void in
+      dispatch_semaphore_signal(semaphore)
+    };
+
+    dispatch_semaphore_wait(semaphore, 20)
+
     super.tearDown()
   }
 
@@ -69,8 +76,6 @@ class URLDownloaderTests: XCTestCase {
     var creationDate : NSDate?
     var  cacheFilePath:String?
 
-
-    //Remove any cache forcefully.
     var cacheDir = FileDownloadManager.cacheDirectory as NSString
     if  let cacheInfo = FileDownloadManager.sharedInstance.cache.objectForKey(filesTobeDownloaded[0]),
       let fileName = cacheInfo["fileName"] as? String

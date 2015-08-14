@@ -10,8 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
- // var downloadImmediately: FileDownload?
- // var downloadLater: FileDownload?
+  // var downloadImmediately: FileDownload?
+  // var downloadLater: FileDownload?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -28,14 +28,14 @@ class ViewController: UIViewController {
     //http://kmmc.in/wp-content/uploads/2014/01/lesson2.pdf
     let url = "http://kmmc.in/wp-content/uploads/2014/01/lesson2.pdf"
 
-     sender.titleLabel?.enabled = false
+    sender.titleLabel?.enabled = false
 
-      let downloadImmediately = FileDownloadManager.sharedInstance.download(url){ (url,filePath, success, error) -> Void in
-        if(success)
-        {
-            print("File from \(url) \n downloaded at: \(filePath)")
-        }
-       sender.titleLabel?.enabled = true
+    let downloadImmediately = FileDownloadManager.sharedInstance.download(url){ (url,filePath, success, error) -> Void in
+      if(success)
+      {
+        print("File from \(url) \n downloaded at: \(filePath)")
+      }
+      sender.titleLabel?.enabled = true
     }
 
 
@@ -47,11 +47,11 @@ class ViewController: UIViewController {
         print("File from \(url) \n downloaded at: \(filePath)")
       }
       sender.titleLabel?.enabled = true
-     }
+    }
 
     //You need to explictely initiate download when you want
     downloadLater.resume()
   }
-
+  
 }
 

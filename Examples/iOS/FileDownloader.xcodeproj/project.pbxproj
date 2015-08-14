@@ -14,13 +14,13 @@
 		826AA46F1B7C575200CACFAC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 826AA46C1B7C575200CACFAC /* Main.storyboard */; };
 		826AA4801B7C5A7100CACFAC /* FileDownloaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA47F1B7C5A7100CACFAC /* FileDownloaderTests.swift */; };
 		826AA4871B7C5A8C00CACFAC /* FileDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA4821B7C5A8C00CACFAC /* FileDownload.swift */; };
-		826AA4881B7C5A8C00CACFAC /* FileDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA4821B7C5A8C00CACFAC /* FileDownload.swift */; };
 		826AA4891B7C5A8C00CACFAC /* FileDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA4831B7C5A8C00CACFAC /* FileDownloadManager.swift */; };
-		826AA48A1B7C5A8C00CACFAC /* FileDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA4831B7C5A8C00CACFAC /* FileDownloadManager.swift */; };
 		826AA48B1B7C5A8C00CACFAC /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA4851B7C5A8C00CACFAC /* Cache.swift */; };
-		826AA48C1B7C5A8C00CACFAC /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA4851B7C5A8C00CACFAC /* Cache.swift */; };
 		826AA48D1B7C5A8C00CACFAC /* CacheObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA4861B7C5A8C00CACFAC /* CacheObject.swift */; };
-		826AA48E1B7C5A8C00CACFAC /* CacheObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA4861B7C5A8C00CACFAC /* CacheObject.swift */; };
+		826AA4901B7CAFFB00CACFAC /* FileDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA4821B7C5A8C00CACFAC /* FileDownload.swift */; };
+		826AA4911B7CAFFD00CACFAC /* FileDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA4831B7C5A8C00CACFAC /* FileDownloadManager.swift */; };
+		826AA4921B7CB00300CACFAC /* CacheObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA4861B7C5A8C00CACFAC /* CacheObject.swift */; };
+		826AA4931B7CB00500CACFAC /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA4851B7C5A8C00CACFAC /* Cache.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -242,10 +242,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				826AA4801B7C5A7100CACFAC /* FileDownloaderTests.swift in Sources */,
-				826AA4881B7C5A8C00CACFAC /* FileDownload.swift in Sources */,
-				826AA48C1B7C5A8C00CACFAC /* Cache.swift in Sources */,
-				826AA48E1B7C5A8C00CACFAC /* CacheObject.swift in Sources */,
-				826AA48A1B7C5A8C00CACFAC /* FileDownloadManager.swift in Sources */,
+				826AA4931B7CB00500CACFAC /* Cache.swift in Sources */,
+				826AA4901B7CAFFB00CACFAC /* FileDownload.swift in Sources */,
+				826AA4911B7CAFFD00CACFAC /* FileDownloadManager.swift in Sources */,
+				826AA4921B7CB00300CACFAC /* CacheObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
