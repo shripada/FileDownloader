@@ -21,6 +21,8 @@
 		826AA4911B7CAFFD00CACFAC /* FileDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA4831B7C5A8C00CACFAC /* FileDownloadManager.swift */; };
 		826AA4921B7CB00300CACFAC /* CacheObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA4861B7C5A8C00CACFAC /* CacheObject.swift */; };
 		826AA4931B7CB00500CACFAC /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA4851B7C5A8C00CACFAC /* Cache.swift */; };
+		826AA4971B7DCD3000CACFAC /* DownloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA4961B7DCD3000CACFAC /* DownloadCell.swift */; };
+		826AA49B1B7DEE0D00CACFAC /* DownloadsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826AA49A1B7DEE0D00CACFAC /* DownloadsTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		826AA4831B7C5A8C00CACFAC /* FileDownloadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDownloadManager.swift; sourceTree = "<group>"; };
 		826AA4851B7C5A8C00CACFAC /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
 		826AA4861B7C5A8C00CACFAC /* CacheObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheObject.swift; sourceTree = "<group>"; };
+		826AA4961B7DCD3000CACFAC /* DownloadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadCell.swift; sourceTree = "<group>"; };
+		826AA49A1B7DEE0D00CACFAC /* DownloadsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadsTableViewController.swift; sourceTree = "<group>"; };
 		8289EDC91B747B0500CA1BD3 /* FileDownloader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FileDownloader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8289EDCD1B747B0500CA1BD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -109,6 +113,8 @@
 		8289EDC01B747B0500CA1BD3 = {
 			isa = PBXGroup;
 			children = (
+				826AA49A1B7DEE0D00CACFAC /* DownloadsTableViewController.swift */,
+				826AA4961B7DCD3000CACFAC /* DownloadCell.swift */,
 				826AA4811B7C5A8C00CACFAC /* FileDownloader */,
 				826AA46A1B7C575200CACFAC /* LaunchScreen.xib */,
 				826AA46C1B7C575200CACFAC /* Main.storyboard */,
@@ -256,7 +262,9 @@
 				826AA4521B7C53ED00CACFAC /* ViewController.swift in Sources */,
 				826AA48B1B7C5A8C00CACFAC /* Cache.swift in Sources */,
 				826AA4871B7C5A8C00CACFAC /* FileDownload.swift in Sources */,
+				826AA49B1B7DEE0D00CACFAC /* DownloadsTableViewController.swift in Sources */,
 				826AA4421B7C53C000CACFAC /* AppDelegate.swift in Sources */,
+				826AA4971B7DCD3000CACFAC /* DownloadCell.swift in Sources */,
 				826AA4891B7C5A8C00CACFAC /* FileDownloadManager.swift in Sources */,
 				826AA48D1B7C5A8C00CACFAC /* CacheObject.swift in Sources */,
 			);

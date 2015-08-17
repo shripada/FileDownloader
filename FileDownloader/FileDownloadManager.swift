@@ -62,8 +62,7 @@ public class FileDownloadManager {
   :param: configuration Session configuration
   */
 
-  required  public init(configuration: NSURLSessionConfiguration)
-  {
+  required  public init(configuration: NSURLSessionConfiguration){
     self.session  = NSURLSession(configuration: configuration)
   }
 
