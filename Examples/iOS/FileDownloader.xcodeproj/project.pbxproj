@@ -113,9 +113,9 @@
 		8289EDC01B747B0500CA1BD3 = {
 			isa = PBXGroup;
 			children = (
+				826AA4811B7C5A8C00CACFAC /* FileDownloader */,
 				826AA49A1B7DEE0D00CACFAC /* DownloadsTableViewController.swift */,
 				826AA4961B7DCD3000CACFAC /* DownloadCell.swift */,
-				826AA4811B7C5A8C00CACFAC /* FileDownloader */,
 				826AA46A1B7C575200CACFAC /* LaunchScreen.xib */,
 				826AA46C1B7C575200CACFAC /* Main.storyboard */,
 				826AA4531B7C53F500CACFAC /* Images.xcassets */,

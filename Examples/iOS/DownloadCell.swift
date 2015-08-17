@@ -24,7 +24,7 @@ class DownloadCell: UITableViewCell {
     didSet{
 
       if(download != nil){
-        activityIndicator.hidden = (download!.task!.state == NSURLSessionTaskState.Completed)
+        activityIndicator.hidden = true
         tickMark.hidden = (download!.task!.state != NSURLSessionTaskState.Completed)
         urlField.text = download!.url
 
