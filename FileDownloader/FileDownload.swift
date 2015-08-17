@@ -27,6 +27,17 @@ public class FileDownload
 
   var resumesImmediately:Bool = true
 
+  var cachedFilePath: String? {
+    get{
+      if let cacheEntry = cacheEntry(),
+              fileName = cacheEntry["fileName"]{
+          return FileDownloadManager.cacheDirectory.stringByAppendingPathComponent(fileName)
+
+      }
+      return nil
+    }
+  }
+
 
   //MARK:
 
