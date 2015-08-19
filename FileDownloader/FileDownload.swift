@@ -164,7 +164,7 @@ public class FileDownload
           if (filePath == nil){
             filePath = FileDownloadManager.cacheDirectory;
             //Ensure a unique file name to avoid conflicts
-            filePath = filePath!.stringByAppendingPathComponent(NSDate().description + self.url.lastPathComponent );
+            filePath = filePath!.stringByAppendingPathComponent(NSUUID().UUIDString + "-" + self.url.lastPathComponent );
           }
 
           //Remove the file at this path if already present before we move the new one
