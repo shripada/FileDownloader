@@ -27,7 +27,7 @@ class URLDownloaderTests: XCTestCase {
 
   override func tearDown() {
     //Remove cache.
-    var semaphore = dispatch_semaphore_create(0)
+    let semaphore = dispatch_semaphore_create(0)
     FileDownloadManager.sharedInstance.cache.removeAllObjects { () -> Void in
       dispatch_semaphore_signal(semaphore)
     };
@@ -42,13 +42,16 @@ class URLDownloaderTests: XCTestCase {
 
     let expectation = expectationWithDescription("\(filesTobeDownloaded[0])")
     //Remove any cache forcefully.
-    var cacheDir = FileDownloadManager.cacheDirectory as NSString
+    let cacheDir = FileDownloadManager.cacheDirectory as NSString
     if  let cacheInfo = FileDownloadManager.sharedInstance.cache.objectForKey(filesTobeDownloaded[0]),
         let fileName = cacheInfo["fileName"] as? String
     {
       let cacheFilePath = cacheDir.stringByAppendingPathComponent(fileName)
       if(NSFileManager.defaultManager().fileExistsAtPath(cacheFilePath)){
-        NSFileManager.defaultManager().removeItemAtPath(cacheFilePath, error: nil)
+        do {
+          try NSFileManager.defaultManager().removeItemAtPath(cacheFilePath)
+        } catch _ {
+        }
       }
     }
 
@@ -76,12 +79,12 @@ class URLDownloaderTests: XCTestCase {
     var creationDate : NSDate?
     var  cacheFilePath:String?
 
-    var cacheDir = FileDownloadManager.cacheDirectory as NSString
+    let cacheDir = FileDownloadManager.cacheDirectory as NSString
     if  let cacheInfo = FileDownloadManager.sharedInstance.cache.objectForKey(filesTobeDownloaded[0]),
       let fileName = cacheInfo["fileName"] as? String
     {
       cacheFilePath = cacheDir.stringByAppendingPathComponent(fileName)
-      if let attributes:NSDictionary = NSFileManager.defaultManager().attributesOfItemAtPath(cacheFilePath!, error: nil){
+      if let attributes:NSDictionary = try? NSFileManager.defaultManager().attributesOfItemAtPath(cacheFilePath!){
         creationDate = attributes[NSFileCreationDate] as? NSDate
       }
 
@@ -93,7 +96,7 @@ class URLDownloaderTests: XCTestCase {
       XCTAssertNotNil(filePath, "Failed!: Could not get the file downloaded!")
 
       //Check again that, the file was not overwritten by an actual download. Creation date should not have change now.
-      if let attributes:NSDictionary  = NSFileManager.defaultManager().attributesOfItemAtPath(cacheFilePath!, error: nil){
+      if let attributes:NSDictionary  = try? NSFileManager.defaultManager().attributesOfItemAtPath(cacheFilePath!){
         let newCreationDate = attributes[NSFileCreationDate] as? NSDate
         XCTAssertEqual(creationDate!, newCreationDate!, "Failed!, cached file was not returned!")
       }
@@ -114,16 +117,16 @@ class URLDownloaderTests: XCTestCase {
     var creationDate : NSDate?
     var  cacheFilePath:String?
 
-    var cacheDir = FileDownloadManager.cacheDirectory as NSString
+    let cacheDir = FileDownloadManager.cacheDirectory as NSString
     if  let cacheInfo:NSDictionary = FileDownloadManager.sharedInstance.cache.objectForKey(filesTobeDownloaded[0]) ,
       let fileName = cacheInfo["fileName"] as? String
     {
       cacheFilePath = cacheDir.stringByAppendingPathComponent(fileName)
-      if let attributes:NSDictionary = NSFileManager.defaultManager().attributesOfItemAtPath(cacheFilePath!, error: nil){
+      if let attributes:NSDictionary = try? NSFileManager.defaultManager().attributesOfItemAtPath(cacheFilePath!){
         creationDate = attributes[NSFileCreationDate] as? NSDate
       }
 
-      var newCacheInfo : [String:String] =  ["lastModified" : cacheInfo["lastModified"] as! String , "ETag" : "ChangedValue", "fileName" : fileName ]
+      let newCacheInfo : [String:String] =  ["lastModified" : cacheInfo["lastModified"] as! String , "ETag" : "ChangedValue", "fileName" : fileName ]
       FileDownloadManager.sharedInstance.cache.setObject(newCacheInfo, forKey: filesTobeDownloaded[0])
 
     }
@@ -137,7 +140,7 @@ class URLDownloaderTests: XCTestCase {
       XCTAssertNotNil(filePath, "Failed!: Could not get the file downloaded!")
 
       //Check again that, the file was not overwritten by an actual download. Creation date should not have change now.
-      if let attributes:NSDictionary  = NSFileManager.defaultManager().attributesOfItemAtPath(cacheFilePath!, error: nil){
+      if let attributes:NSDictionary  = try? NSFileManager.defaultManager().attributesOfItemAtPath(cacheFilePath!){
         let newCreationDate = attributes[NSFileCreationDate] as? NSDate
         XCTAssertNotEqual(creationDate!, newCreationDate!, "Failed!, new file was not overwritten despite ETag change!")
       }
@@ -160,18 +163,18 @@ class URLDownloaderTests: XCTestCase {
     var creationDate : NSDate?
     var  cacheFilePath:String?
 
-    var cacheDir = FileDownloadManager.cacheDirectory as NSString
+    let cacheDir = FileDownloadManager.cacheDirectory as NSString
     if  let cacheInfo:NSDictionary = FileDownloadManager.sharedInstance.cache.objectForKey(filesTobeDownloaded[0]) ,
       let fileName = cacheInfo["fileName"] as? String
     {
       cacheFilePath = cacheDir.stringByAppendingPathComponent(fileName)
-      if let attributes:NSDictionary = NSFileManager.defaultManager().attributesOfItemAtPath(cacheFilePath!, error: nil){
+      if let attributes:NSDictionary = try? NSFileManager.defaultManager().attributesOfItemAtPath(cacheFilePath!){
         creationDate = attributes[NSFileCreationDate] as? NSDate
       }
 
       let oldModifiedDate  = "Fri, 12 May 2014 04:42:17 GMT" //Fri, 16 May 2014 04:42:17 GMT
 
-      var newCacheInfo : [String:String] =  ["lastModified" : oldModifiedDate , "ETag" : cacheInfo["ETag"] as! String, "fileName" : fileName ]
+      let newCacheInfo : [String:String] =  ["lastModified" : oldModifiedDate , "ETag" : cacheInfo["ETag"] as! String, "fileName" : fileName ]
       FileDownloadManager.sharedInstance.cache.setObject(newCacheInfo, forKey: filesTobeDownloaded[0])
 
     }
@@ -185,7 +188,7 @@ class URLDownloaderTests: XCTestCase {
       XCTAssertNotNil(filePath, "Failed!: Could not get the file downloaded!")
 
       //Check again that, the file was not overwritten by an actual download. Creation date should not have change now.
-      if let attributes:NSDictionary  = NSFileManager.defaultManager().attributesOfItemAtPath(cacheFilePath!, error: nil){
+      if let attributes:NSDictionary  = try? NSFileManager.defaultManager().attributesOfItemAtPath(cacheFilePath!){
         let newCreationDate = attributes[NSFileCreationDate] as? NSDate
         XCTAssertNotEqual(creationDate!, newCreationDate!, "Failed!, new file was not overwritten despite last modified dates differ!")
       }
