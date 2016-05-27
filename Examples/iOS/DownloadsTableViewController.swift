@@ -11,7 +11,7 @@ import UIKit
 class DownloadsTableViewController: UITableViewController {
 
   let filesTobeDownloaded = [
-    "http://www.mfiles.co.uk/mp3-downloads/lets-all-go-down-the-strand.mp3",
+    "https://upload.wikimedia.org/wikipedia/commons/9/95/Tracy_Caldwell_Dyson_in_Cupola_ISS.jpg",
     "http://www.mfiles.co.uk/mp3-downloads/frederic-chopin-piano-sonata-2-op35-3-funeral-march.mp3",
     "http://edmullen.net/test/rc.jpg",
     "http://kmmc.in/wp-content/uploads/2014/01/lesson2.pdf",

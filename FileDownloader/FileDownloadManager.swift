@@ -1,6 +1,6 @@
 //
 //  FileDownloadManager.swift
-//  Version 1.0.0
+//  Version 1.0.1
 //
 //  Created by Shripada Hebbar on 07/08/15.
 //  Copyright (c) 2015 Shripada Hebbar. All rights reserved.
@@ -33,16 +33,19 @@ public class FileDownloadManager {
     var bundle: String = "Unknown"
 
     if let info = NSBundle.mainBundle().infoDictionary {
-      bundle = info[kCFBundleIdentifierKey] as! String
+      bundle = info[String(kCFBundleIdentifierKey)] as! String
     }
 
-    let cacheDirectory = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true).first as! String
+    let cacheDirectory = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true).first
 
     //Create a caches folder for the app if does not exist in caches directory.
-    let dir = cacheDirectory.stringByAppendingPathComponent(bundle)
+    let dir = (cacheDirectory! as NSString).stringByAppendingPathComponent(bundle)
 
     if(!NSFileManager.defaultManager().fileExistsAtPath(dir)){
-      NSFileManager.defaultManager() .createDirectoryAtPath(dir, withIntermediateDirectories: true, attributes: nil, error: nil)
+      do {
+        try NSFileManager.defaultManager() .createDirectoryAtPath(dir, withIntermediateDirectories: true, attributes: nil)
+      } catch _ {
+      }
     }
 
     return dir
@@ -59,7 +62,7 @@ public class FileDownloadManager {
   /**
   Designated initializer
 
-  :param: configuration Session configuration
+  - parameter configuration: Session configuration
   */
 
   required  public init(configuration: NSURLSessionConfiguration){
@@ -76,8 +79,8 @@ public class FileDownloadManager {
   Initiates an asynchronous download for each of the url mentioned, with a completion handler, that
   gets called for each of the successful download. Download will start immediately.
 
-  :param: url  The url as a String
-  :param:  completion  Closure that will be called for download associated when the request is completed.
+  - parameter url:  The url as a String
+  - parameter  completion:  Closure that will be called for download associated when the request is completed.
   :result: Returns the FileDownload object that encapsulates the task underneath.
   */
 
@@ -91,9 +94,9 @@ public class FileDownloadManager {
   Initiates an asynchronous download for each of the url mentioned, with a completion handler, that
   gets called for each of the successful download. Additionally allows if the donwload should begin immediately or not.
 
-  :param: url  The url as a String
-  :param: resumesImmediately  Set true, if the download should begin immediately, fasle otherwise.
-  :param:  completion  Closure that will be called for download associated when the request is completed.
+  - parameter url:  The url as a String
+  - parameter resumesImmediately:  Set true, if the download should begin immediately, fasle otherwise.
+  - parameter  completion:  Closure that will be called for download associated when the request is completed.
   :result: Returns the FileDownload object that encapsulates the task underneath.
   */
 
